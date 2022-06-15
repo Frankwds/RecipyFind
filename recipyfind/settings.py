@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-g%4co%3b-zytsk+v198nsz!40(_y19f9h^bcat1ug87g^8*ab-
 DEBUG = True
 
 ALLOWED_HOSTS = ['recipyfind.herokuapp.com',]
-DATABASE_URL = "postgres://dxywxhtgdllapa:bb5366102d8cf811a18cc2721848ba9deeb18b4c96e8a4e930f8d657dbfe8002@ec2-54-170-90-26.eu-west-1.compute.amazonaws.com:5432/ddp8grb3n6f1oi"
+
 
 # Application definition
 
@@ -138,3 +139,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/home"
+
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES = {'default': dj_database_url.config()}
