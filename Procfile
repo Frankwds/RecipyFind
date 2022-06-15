@@ -1,1 +1,1 @@
-web: gunicorn recipyfind.recipyfind.wsgi
+web: gunicorn recipyfind.wsgi
