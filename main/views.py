@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .forms import RecipeForm, IngredientForm, AddForm, RatingForm
-from .models import Rating, Recipe, Amount, Shoppinglist, Theme
+from .models import Logo, Rating, Recipe, Amount, Shoppinglist, Theme
 from categories.models import Category
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -15,6 +15,7 @@ import json
 def updateRecipe(response, pk):
     recipe = Recipe.objects.get(id=pk)
     form = RecipeForm(instance=recipe)
+    logo = Logo.objects.filter(pk=1).get()
 
     if response.method == 'POST':
         form = RecipeForm(response.POST, response.FILES, instance=recipe)
@@ -29,13 +30,14 @@ def updateRecipe(response, pk):
         theme = Theme(theme=False, user=user)
         theme.save()
 
-    return render(response, 'main/update_recipe.html', {'form': form, 'bool': theme.theme, "allCategories": allCategories})
+    return render(response, 'main/update_recipe.html', {'form': form, 'bool': theme.theme, "allCategories": allCategories, "logo": logo})
 
 
 @login_required(login_url='/login/')
 def home(response):
     recipes = Recipe.objects.all()
     user = get_user(response)
+    logo = Logo.objects.filter(pk=1).get()
     try:
         theme = Theme.objects.filter(user=user).get()
     except(Theme.DoesNotExist):
@@ -53,11 +55,12 @@ def home(response):
 
     # Now that i have a valid dictionary, let's write it into JSON so i can parse it in javascript
     ratingsJson = json.dumps(ratings)
-    return render(response, "main/home.html", {"recipies": recipes, "bool": theme.theme, "ratingsJson": ratingsJson, "allCategories": allCategories})
+    return render(response, "main/home.html", {"recipies": recipes, "bool": theme.theme, "ratingsJson": ratingsJson, "allCategories": allCategories, "logo": logo})
 
 
 @login_required(login_url='/login/')
 def recipe_view(response, pk):
+    logo = Logo.objects.filter(pk=1).get()
     user = get_user(response)
     try:
         theme = Theme.objects.filter(user=user).get()
@@ -70,7 +73,7 @@ def recipe_view(response, pk):
         recipe = Recipe.objects.get(pk=pk)
     except(Recipe.DoesNotExist):
         recipies = Recipe.objects.all()
-        return render(response, "main/home.html", {"recipies": recipies, "allCategories": allCategories, 'bool': theme.theme})
+        return render(response, "main/home.html", {"recipies": recipies, "allCategories": allCategories, 'bool': theme.theme, "logo": logo})
     amounts = Amount.objects.filter(recipe=recipe)
 
     # Posting a rating on this recipe, for a user.
@@ -93,11 +96,12 @@ def recipe_view(response, pk):
         ratingArray.append(rating.rating)
 
     return render(response, "main/recipe_view.html",
-                  {"recipe": recipe, "amounts": amounts, 'bool': theme.theme, 'ratingArray': ratingArray, "allCategories": allCategories})
+                  {"recipe": recipe, "amounts": amounts, 'bool': theme.theme, 'ratingArray': ratingArray, "allCategories": allCategories, "logo": logo})
 
 
 @login_required(login_url='/login')
 def mypage(response):
+    logo = Logo.objects.filter(pk=1).get()
 
     if response.method == "POST":
         Recipe.objects.filter(id=response.POST["recipeID"]).delete()
@@ -111,7 +115,7 @@ def mypage(response):
         theme = Theme(theme=False, user=user)
         theme.save()
 
-    return render(response, "main/mypage.html", {"recipies": recipies, "bool": theme.theme, "allCategories": allCategories})
+    return render(response, "main/mypage.html", {"recipies": recipies, "bool": theme.theme, "allCategories": allCategories, "logo": logo})
 
 
 def theme(response):
@@ -136,6 +140,7 @@ def theme(response):
 
 @login_required(login_url='/login/')
 def createRecipe(response):
+    logo = Logo.objects.filter(pk=1).get()
     user = get_user(response)
     allCategories = Category.objects.all()
     if response.method == "POST":
@@ -158,11 +163,12 @@ def createRecipe(response):
     except(Theme.DoesNotExist):
         theme = False
 
-    return render(response, "main/create_recipe.html", {"form": form, 'form2': form2, 'bool': theme.theme, "allCategories": allCategories})
+    return render(response, "main/create_recipe.html", {"form": form, 'form2': form2, 'bool': theme.theme, "allCategories": allCategories, "logo": logo})
 
 
 @login_required(login_url='/login/')
 def add_ingredients_view(response, pk):
+    logo = Logo.objects.filter(pk=1).get()
     allCategories = Category.objects.all()
     try:
         rec = Recipe.objects.get(pk=pk)
@@ -170,7 +176,7 @@ def add_ingredients_view(response, pk):
         recipies = Recipe.objects.all()
         theme = Theme.objects.filter(user=get_user(response)).get()
 
-        return render(response, "main/home.html", {"recipies": recipies, 'bool': theme.theme, "allCategories": allCategories})
+        return render(response, "main/home.html", {"recipies": recipies, 'bool': theme.theme, "allCategories": allCategories, "logo": logo})
 
     amounts = Amount.objects.all().filter(recipe=rec)
     if response.method == "POST":
@@ -194,11 +200,12 @@ def add_ingredients_view(response, pk):
     except(Theme.DoesNotExist):
         theme = False
 
-    return render(response, "main/add_ingredients.html", {'rec': rec, 'form': form, 'form2': form2, 'amounts': amounts, 'bool': theme.theme, "allCategories": allCategories})
+    return render(response, "main/add_ingredients.html", {'rec': rec, 'form': form, 'form2': form2, 'amounts': amounts, 'bool': theme.theme, "allCategories": allCategories, "logo": logo})
 
 
 @login_required(login_url='/login/')
 def popular(response):
+    logo = Logo.objects.filter(pk=1).get()
     allCategories = Category.objects.all()
     recipes = Recipe.objects.all()
     user = get_user(response)
@@ -240,11 +247,12 @@ def popular(response):
     # and make the stars shine.
     ratingsJson = json.dumps(sorted_recipy_ratings)
 
-    return render(response, "main/popular.html", {"recipes": recipeList, "bool": theme.theme, "ratingsJson": ratingsJson, "allCategories": allCategories})
+    return render(response, "main/popular.html", {"recipes": recipeList, "bool": theme.theme, "ratingsJson": ratingsJson, "allCategories": allCategories, "logo": logo})
 
 
 @login_required(login_url='/login/')
 def shoppinglist(response):
+    logo = Logo.objects.filter(pk=1).get()
     allCategories = Category.objects.all()
     user = get_user(response)
     try:
@@ -262,11 +270,12 @@ def shoppinglist(response):
         theme = Theme(theme=False, user=user)
         theme.save()
 
-    return render(response, "main/shoppinglist.html", {'bool': theme.theme, 'ingredients': ingredients, "allCategories": allCategories})
+    return render(response, "main/shoppinglist.html", {'bool': theme.theme, 'ingredients': ingredients, "allCategories": allCategories, "logo": logo})
 
 
 @login_required(login_url='/login/')
 def add_shopping_cart(response, pk):
+    logo = Logo.objects.filter(pk=1).get()
     allCategories = Category.objects.all()
     try:
         recipe = Recipe.objects.get(pk=pk)
@@ -300,4 +309,4 @@ def add_shopping_cart(response, pk):
         ratingArray.append(rating.rating)
 
     return render(response, "main/recipe_view.html",
-                  {"recipe": recipe, "amounts": amounts, 'bool': theme.theme, 'ratingArray': ratingArray, "allCategories": allCategories})
+                  {"recipe": recipe, "amounts": amounts, 'bool': theme.theme, 'ratingArray': ratingArray, "allCategories": allCategories, "logo": logo})

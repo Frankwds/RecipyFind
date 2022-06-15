@@ -946,4 +946,13 @@
     "recipe": 7
   }
 }
+,
+{
+  "model": "main.logo",
+  "pk": 1,
+  "fields": {
+    "image": "RecipyfindLogo.png"
+  }
+  
+}
 ]

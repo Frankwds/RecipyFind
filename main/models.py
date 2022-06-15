@@ -80,3 +80,7 @@ class Shoppinglist(models.Model):
 
     def __str__(self):
         return ("%s - Shopping list") % (self.user)
+
+class Logo(models.Model):
+    image = models.ImageField(
+        null=True, default="RecipyfindLogo.png", verbose_name="RecipyFindLogo")

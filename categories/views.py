@@ -2,13 +2,14 @@ from unicodedata import category
 from django.shortcuts import render
 
 from categories.models import Category, Contains
-from main.models import Theme, Recipe
+from main.models import Theme, Recipe, Logo
 from django.contrib.auth import *
 import json
 # Create your views here.
 
 
 def category_view(response, pk):
+    logo = Logo.objects.filter(pk=1).get()
     category = Category.objects.get(pk=pk)
     recipes = Recipe.objects.all()
     contains = Contains.objects.filter(category=category)
@@ -28,4 +29,4 @@ def category_view(response, pk):
 
     # Now that i have a valid dictionary, let's write it into JSON so i can parse it in javascript
     ratingsJson = json.dumps(ratings)
-    return render(response, 'main/categories.html', {"contains": contains, 'bool': theme.theme, "allCategories": allCategories, "name": category.name, "ratingsJson": ratingsJson})
+    return render(response, 'main/categories.html', {"contains": contains, 'bool': theme.theme, "allCategories": allCategories, "name": category.name, "ratingsJson": ratingsJson, "logo": logo})
