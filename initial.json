@@ -1,5 +1,49 @@
 [
 
+
+{
+  "model": "main.storingtype",
+  "pk": 8,
+  "fields": {
+    "storing_type": "pcs"
+  }
+},
+{
+  "model": "main.storingtype",
+  "pk": 9,
+  "fields": {
+    "storing_type": "gram"
+  }
+},
+{
+  "model": "main.storingtype",
+  "pk": 10,
+  "fields": {
+    "storing_type": "dl"
+  }
+},
+{
+  "model": "main.storingtype",
+  "pk": 11,
+  "fields": {
+    "storing_type": "liter(s)"
+  }
+},
+{
+  "model": "main.storingtype",
+  "pk": 12,
+  "fields": {
+    "storing_type": "pack(s)"
+  }
+},
+{
+  "model": "main.storingtype",
+  "pk": 13,
+  "fields": {
+    "storing_type": "ts"
+  }
+},
+
 {
   "model": "auth.user",
   "pk": 1,
@@ -54,48 +98,7 @@
     "user_permissions": []
   }
 },
-{
-  "model": "main.storingtype",
-  "pk": 8,
-  "fields": {
-    "storing_type": "pcs"
-  }
-},
-{
-  "model": "main.storingtype",
-  "pk": 9,
-  "fields": {
-    "storing_type": "gram"
-  }
-},
-{
-  "model": "main.storingtype",
-  "pk": 10,
-  "fields": {
-    "storing_type": "dl"
-  }
-},
-{
-  "model": "main.storingtype",
-  "pk": 11,
-  "fields": {
-    "storing_type": "liter(s)"
-  }
-},
-{
-  "model": "main.storingtype",
-  "pk": 12,
-  "fields": {
-    "storing_type": "pack(s)"
-  }
-},
-{
-  "model": "main.storingtype",
-  "pk": 13,
-  "fields": {
-    "storing_type": "ts"
-  }
-},
+
 {
   "model": "main.ingredient",
   "pk": 8,
