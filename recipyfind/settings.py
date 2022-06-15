@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g%4co%3b-zytsk+v198nsz!40(_y19f9h^bcat1ug87g^8*ab-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['recipyfind.herokuapp.com',]
 
 
 # Application definition
