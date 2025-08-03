@@ -15,7 +15,6 @@
 
 [Frank William Daniels](https://gitlab.stud.idi.ntnu.no/frankwd)
 
-
 ## Description
 RecìpyFind's goal is to make cooking exciting and grocery shopping easy.
 
@@ -25,6 +24,8 @@ This application allows the user to browse a world of community contributed reci
 
 Any user feeling up to the task can also contribute their own secret recipe and watch it's popularity rise to the top!
 
+## Link
+https://recipyfind.azurewebsites.net/
 
 ## Setup
 
